@@ -5,10 +5,11 @@ import { HotToastService } from '@ngneat/hot-toast';
 import { HubService } from '../../../../shared/services/hubService';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HubResponseModel } from '../../../../shared/models/hubs-model';
+import { Modal } from '../../../../shared/components/modal/modal';
 
 @Component({
   selector: 'app-hub-details',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, Modal],
   templateUrl: './hub-details.html',
   styleUrl: './hub-details.css',
 })
@@ -95,5 +96,11 @@ export class HubDetails implements OnInit {
       });
       this.isToggled.set(false);
     }
+  }
+
+  isModal = signal<boolean>(false);
+
+  toggleAddReviewModal() {
+    this.isModal.set(!this.isModal());
   }
 }

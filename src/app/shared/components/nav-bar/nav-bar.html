@@ -3,12 +3,12 @@
   class="bg-text h-full rounded-4xl flex text-primary items-center px-5"
 >
   <ul class="flex gap-4 items-center justify-between text-[11px] w-full">
-    <li>
+    <li class="">
       <a
         (click)="vibrateOnClick()"
         routerLink="/hubs"
         [ngClass]="{ 'text-rose-400': isRouteActive('/hubs') }"
-        class="flex items-center justify-center flex-col space-x-2 hover:text-rose-400 transition-colors space-y-2"
+        class="flex items-center justify-center flex-col hover:text-rose-400 transition-colors space-y-2"
         title="Go to Hubs page"
       >
         <svg
@@ -38,7 +38,7 @@
         (click)="vibrateOnClick()"
         routerLink="/notifications"
         [ngClass]="{ 'text-rose-400': isRouteActive('/notifications') }"
-        class="flex flex-col items-center space-x-2 hover:text-rose-400 transition-colors space-y-2"
+        class="flex flex-col items-center hover:text-rose-400 transition-colors space-y-2"
         title="Go to Notification page"
       >
         <svg
@@ -68,7 +68,7 @@
         (click)="vibrateOnClick()"
         routerLink="/profile"
         [ngClass]="{ 'text-rose-400': isRouteActive('/profile') }"
-        class="flex flex-col items-center justify-center space-x-2 hover:text-rose-400 transition-colors space-y-2"
+        class="flex flex-col items-center justify-center hover:text-rose-400 transition-colors space-y-2"
         title="Go to profile page"
       >
         <svg
