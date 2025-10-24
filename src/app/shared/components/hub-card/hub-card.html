@@ -1,17 +1,17 @@
 <div
-  [routerLink]="['/events', eventData.id]"
+  [routerLink]="['/events', hubData.id]"
   class="space-y-4 hover:border hover:border-text/8 hover:shadow-xl/20 hover:shadow-text/70 rounded-2xl p-2"
 >
   <div class="w-full h-44 rounded-2xl overflow-clip">
     <img
-      [src]="eventData.images?.[0]"
+      [src]="hubData.images?.[0]"
       alt="property image"
       class="w-full h-full object-cover"
     />
   </div>
   <div class="flex justify-between items-end">
     <div class="space-y-2.5">
-      <p class="text-sm font-bold">{{ eventData.title }}</p>
+      <p class="text-sm font-bold">{{ hubData.title }}</p>
       <div>
         <p class="flex items-center gap-2 text-dark text-sm">
           <svg
@@ -31,7 +31,7 @@
             />
             <circle cx="12" cy="10" r="3" />
           </svg>
-          <span>{{ eventData.location }}</span>
+          <span>{{ hubData.location }}</span>
         </p>
       </div>
     </div>

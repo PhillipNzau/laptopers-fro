@@ -6,10 +6,10 @@
     <li>
       <a
         (click)="vibrateOnClick()"
-        routerLink="/events"
-        [ngClass]="{ 'text-rose-400': isRouteActive('/events') }"
+        routerLink="/hubs"
+        [ngClass]="{ 'text-rose-400': isRouteActive('/hubs') }"
         class="flex items-center justify-center flex-col space-x-2 hover:text-rose-400 transition-colors space-y-2"
-        title="Go to events page"
+        title="Go to Hubs page"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -21,19 +21,15 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="lucide lucide-calendar-range-icon lucide-calendar-range"
+          class="lucide lucide-computer-icon lucide-computer"
         >
-          <rect width="18" height="18" x="3" y="4" rx="2" />
-          <path d="M16 2v4" />
-          <path d="M3 10h18" />
-          <path d="M8 2v4" />
-          <path d="M17 14h-6" />
-          <path d="M13 18H7" />
-          <path d="M7 14h.01" />
-          <path d="M17 18h.01" />
+          <rect width="14" height="8" x="5" y="2" rx="2" />
+          <rect width="20" height="8" x="2" y="14" rx="2" />
+          <path d="M6 18h2" />
+          <path d="M12 18h6" />
         </svg>
 
-        <span> Events </span>
+        <span> Hubs </span>
       </a>
     </li>
 

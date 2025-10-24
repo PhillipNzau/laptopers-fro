@@ -22,11 +22,11 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'events',
+    redirectTo: 'hubs',
   },
   // catch-all wildcard
   {
     path: '**',
-    redirectTo: 'events',
+    redirectTo: 'hubs',
   },
 ];

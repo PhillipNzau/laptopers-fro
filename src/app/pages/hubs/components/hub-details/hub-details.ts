@@ -2,25 +2,25 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
-import { EventService } from '../../../../shared/services/eventService';
+import { HubService } from '../../../../shared/services/hubService';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { EventResponseModel } from '../../../../shared/models/events-model';
+import { HubResponseModel } from '../../../../shared/models/hubs-model';
 
 @Component({
-  selector: 'app-event-details',
+  selector: 'app-hub-details',
   imports: [CommonModule, RouterModule, ReactiveFormsModule],
-  templateUrl: './event-details.html',
-  styleUrl: './event-details.css',
+  templateUrl: './hub-details.html',
+  styleUrl: './hub-details.css',
 })
-export class EventDetails implements OnInit {
-  private eventService = inject(EventService);
+export class HubDetails implements OnInit {
+  private hubService = inject(HubService);
   private toastService = inject(HotToastService);
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
 
   isToggled = signal<boolean>(false);
 
-  event = signal<EventResponseModel>({});
+  hub = signal<HubResponseModel>({});
   selectedImage = signal<string>('');
 
   usr = JSON.parse(localStorage.getItem('uWfUsr') || '');
@@ -28,17 +28,17 @@ export class EventDetails implements OnInit {
 
   isEditing = signal(false);
   eventForm = this.fb.nonNullable.group({
-    title: [this.event().title],
-    location: [this.event().location],
-    available: [this.event().available],
-    description: [this.event().description],
+    title: [this.hub().title],
+    location: [this.hub().location],
+    available: [this.hub().available],
+    description: [this.hub().description],
   });
 
   ngOnInit(): void {
-    this.getEvent();
+    this.getHub();
     this.role.set(this.usr?.role);
   }
-  getEvent() {
+  getHub() {
     const loadingToast = this.toastService.loading('Processing...');
 
     const id = this.route.snapshot.paramMap.get('id');
@@ -47,10 +47,10 @@ export class EventDetails implements OnInit {
       return;
     }
 
-    this.eventService.getSingleEvent(id).subscribe({
+    this.hubService.getSingleHub(id).subscribe({
       next: (res) => {
         loadingToast.close();
-        this.event.set(res);
+        this.hub.set(res);
       },
       error: () => {
         loadingToast.close();
@@ -69,7 +69,7 @@ export class EventDetails implements OnInit {
 
     // Reset form with latest Event values when editing starts
     if (this.isToggled()) {
-      this.eventForm.patchValue(this.event());
+      this.eventForm.patchValue(this.hub());
     }
   }
 
@@ -83,10 +83,10 @@ export class EventDetails implements OnInit {
     }
 
     if (this.eventForm.valid) {
-      this.eventService.updateEvent(this.eventForm.value, id).subscribe({
+      this.hubService.updateHub(this.eventForm.value, id).subscribe({
         next: (res) => {
           loadingToast.close();
-          this.event.set(res);
+          this.hub.set(res);
         },
         error: () => {
           loadingToast.close();

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { EventCard } from '../../shared/components/event-card/event-card';
-import { EventService } from '../../shared/services/eventService';
+import { HubCard } from '../../shared/components/hub-card/hub-card';
+import { HubService } from '../../shared/services/hubService';
 import {
   FormArray,
   FormBuilder,
@@ -9,27 +9,27 @@ import {
   Validators,
 } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
-import { EventResponseModel } from '../../shared/models/events-model';
+import { HubResponseModel } from '../../shared/models/hubs-model';
 import { Modal } from '../../shared/components/modal/modal';
 
 @Component({
-  selector: 'app-events',
-  imports: [ReactiveFormsModule, CommonModule, EventCard, Modal],
-  templateUrl: './events.html',
-  styleUrl: './events.css',
+  selector: 'app-hubs',
+  imports: [ReactiveFormsModule, CommonModule, HubCard, Modal],
+  templateUrl: './hubs.html',
+  styleUrl: './hubs.css',
 })
 export class Events implements OnInit {
   fb = inject(FormBuilder);
-  eventService = inject(EventService);
+  hubService = inject(HubService);
   toastService = inject(HotToastService);
 
   usr = JSON.parse(localStorage.getItem('uWfUsr') || '');
   userDetails = signal<any>(this.usr);
 
   isLayout = signal<boolean>(true);
-  events = signal<EventResponseModel[]>([]);
+  hubs = signal<HubResponseModel[]>([]);
 
-  createEventForm = this.fb.nonNullable.group({
+  createHubForm = this.fb.nonNullable.group({
     title: ['', [Validators.required]],
     description: ['', [Validators.required]],
     location: ['', [Validators.required]],
@@ -49,10 +49,10 @@ export class Events implements OnInit {
   getAllEvents() {
     const loadingToast = this.toastService.loading('Processing...');
 
-    this.eventService.getAllEvent().subscribe({
+    this.hubService.getAllHub().subscribe({
       next: (res) => {
         loadingToast.close();
-        this.events.set(res);
+        this.hubs.set(res);
       },
       error: (err) => {
         loadingToast.close();
@@ -74,7 +74,7 @@ export class Events implements OnInit {
 
   // Getter for easy access in template
   get images(): FormArray<any> {
-    return this.createEventForm.get('images') as FormArray<any>;
+    return this.createHubForm.get('images') as FormArray<any>;
   }
   // Function to handle file input and convert to base64
   imagePreviews: string[] = [];
@@ -103,12 +103,12 @@ export class Events implements OnInit {
   submitCreateForm() {
     const loadingToast = this.toastService.loading('Processing...');
     console.log('====================================');
-    console.log(this.createEventForm.value);
+    console.log(this.createHubForm.value);
     console.log('====================================');
 
-    // if (this.createEventForm.invalid) return;
+    // if (this.createHubForm.invalid) return;
 
-    const formValue = this.createEventForm.value;
+    const formValue = this.createHubForm.value;
     const formData = new FormData();
 
     // Append other fields
@@ -126,7 +126,7 @@ export class Events implements OnInit {
       }
     });
 
-    this.eventService.createEvent(formData).subscribe({
+    this.hubService.createHub(formData).subscribe({
       next: (res) => {
         this.getAllEvents();
 
@@ -135,7 +135,7 @@ export class Events implements OnInit {
         loadingToast.close();
 
         // Reset form and preview
-        this.createEventForm.reset();
+        this.createHubForm.reset();
         this.imagePreviews = [];
         this.images.clear();
       },

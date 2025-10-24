@@ -12,16 +12,16 @@ export const PAGES_ROUTES: Route[] = [
     component: MainLayout,
     children: [
       {
-        path: 'events',
+        path: 'hubs',
         loadComponent: () =>
-          import('../../pages/events/events').then((m) => m.Events),
+          import('../../pages/hubs/hubs').then((m) => m.Events),
       },
       {
-        path: 'events/:id',
+        path: 'hubs/:id',
         loadComponent: () =>
-          import(
-            '../../pages/events/components/event-details/event-details'
-          ).then((m) => m.EventDetails),
+          import('../../pages/hubs/components/hub-details/hub-details').then(
+            (m) => m.HubDetails
+          ),
       },
       {
         path: 'reports',

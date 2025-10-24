@@ -1,4 +1,4 @@
-export interface CreateEventModel {
+export interface CreateHubModel {
   title?: string;
   description?: string;
   location?: string;
@@ -7,12 +7,12 @@ export interface CreateEventModel {
   availability?: boolean;
 }
 
-export interface UpdateEventModel {
+export interface UpdateHubModel {
   title?: string;
   // phone?: string;
 }
 
-export interface EventResponseModel {
+export interface HubResponseModel {
   id?: string;
   user_id?: string;
   title?: string;
@@ -26,7 +26,7 @@ export interface EventResponseModel {
   updated_at?: string;
 }
 
-export interface EventUpdateResponseModel {
+export interface HubUpdateResponseModel {
   message?: string;
-  event?: EventResponseModel;
+  event?: HubResponseModel;
 }

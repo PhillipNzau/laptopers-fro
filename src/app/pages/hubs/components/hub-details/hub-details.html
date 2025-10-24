@@ -1,7 +1,7 @@
 <section class="w-full h-1/2 p-2">
   <div class="bg-gray-200 size-full rounded-4xl overflow-clip relative">
     <img
-      [src]="selectedImage() === '' ? event().images?.[0] : selectedImage()"
+      [src]="selectedImage() === '' ? hub().images?.[0] : selectedImage()"
       alt=""
       class="object-cover w-full h-full"
     />
@@ -9,14 +9,14 @@
       class="px-3 h-10 flex items-center justify-center rounded-2xl bg-container absolute top-5 left-4 gap-2"
     >
       <p>Target:</p>
-      <p>{{ event().target_amount }} /=</p>
+      <p>{{ hub().target_amount }} /=</p>
     </div>
   </div>
 </section>
 <section
   class="p-2 flex gap-2 w-full overflow-x-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:none]"
 >
-  @for (img of event().images; track $index) {
+  @for (img of hub().images; track $index) {
   <div
     class="bg-gray-200 h-24 min-w-36 rounded-2xl overflow-clip"
     (click)="selectImage(img)"
@@ -52,7 +52,7 @@
   @if (!isToggled()) {
   <div class="flex items-center justify-between">
     <div>
-      <h1 class="text-2xl font-bold">{{ event().title }}</h1>
+      <h1 class="text-2xl font-bold">{{ hub().title }}</h1>
       <p class="text-sm text-gray-500 flex gap-1 items-center">
         <span
           ><svg
@@ -71,24 +71,24 @@
               d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
             />
             <circle cx="12" cy="10" r="3" /></svg></span
-        >{{ event().location }}
+        >{{ hub().location }}
       </p>
     </div>
     <p
       [ngClass]="{
-        'bg-rose-400': !event().available,
-        'bg-primary': event().available
+        'bg-rose-400': !hub().available,
+        'bg-primary': hub().available
       }"
       class="py-1 px-3 rounded-full text-sm"
     >
-      {{ event().available ? "Available" : "Occupied" }}
+      {{ hub().available ? "Available" : "Occupied" }}
     </p>
   </div>
 
   <div class="py-6">
     <p class="text-lg font-bold text-text py-1">Description</p>
     <p class="text-md text-gray-500 h-44 overflow-y-scroll py-1">
-      {{ event().description }}
+      {{ hub().description }}
     </p>
   </div>
   } @else {
