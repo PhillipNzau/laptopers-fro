@@ -19,6 +19,16 @@ export class HubService {
   router = inject(Router);
   http = inject(HttpClient);
 
+  searchLocations(query: any) {
+    if (!query) return [];
+
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+      query
+    )}&addressdetails=1&limit=5`;
+
+    return this.http.get<any[]>(url);
+  }
+
   // get all hubs
   getAllHub() {
     const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.eventUrl}`;

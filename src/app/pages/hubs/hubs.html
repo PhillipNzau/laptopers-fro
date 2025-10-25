@@ -152,6 +152,29 @@
         </div>
 
         <div class="space-y-3">
+          <input
+            id="location"
+            type="text"
+            placeholder="Enter city or country"
+            [formControl]="searchControl"
+            class="h-14 w-full rounded-lg border border-themeMainColor px-6 text-base text-stone-900 placeholder-neutral-300 outline-none transition-all duration-200 focus:border-themeMainColor"
+          />
+
+          @if (suggestions.length > 0) {
+          <ul class="space-y-1 rounded-lg border border-themeMainColor p-1">
+            @for (suggestion of suggestions; track suggestion) {
+            <li
+              class="hover: cursor-pointer rounded-lg border px-6 py-2 transition-all duration-200 hover:bg-purple-200"
+              (click)="selectSuggestion(suggestion)"
+            >
+              {{ suggestion.display_name }}
+            </li>
+            }
+          </ul>
+          }
+        </div>
+
+        <div class="space-y-3">
           <p class="font-bold">Description</p>
 
           <textarea

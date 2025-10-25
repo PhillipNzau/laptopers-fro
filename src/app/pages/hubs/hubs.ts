@@ -5,12 +5,14 @@ import { HubService } from '../../shared/services/hubService';
 import {
   FormArray,
   FormBuilder,
+  FormControl,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
 import { HubResponseModel } from '../../shared/models/hubs-model';
 import { Modal } from '../../shared/components/modal/modal';
+import { debounceTime, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-hubs',
@@ -28,18 +30,46 @@ export class Events implements OnInit {
 
   isLayout = signal<boolean>(true);
   hubs = signal<HubResponseModel[]>([]);
+  searchControl = new FormControl('');
+  suggestions: any[] = [];
+  selectedLocation: any = null;
 
   createHubForm = this.fb.nonNullable.group({
     title: ['', [Validators.required]],
     description: ['', [Validators.required]],
     location_name: ['', [Validators.required]],
-    geo_location: ['', [Validators.required]],
+    coordinates: this.fb.group({
+      lat: [''],
+      lng: [''],
+    }),
     rating: ['', [Validators.required]],
     images: this.fb.nonNullable.array<File>([], [Validators.required]),
   });
 
   ngOnInit(): void {
     this.getAllEvents();
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(300),
+        switchMap((value) => this.hubService.searchLocations(value))
+      )
+      .subscribe((results) => {
+        this.suggestions = results;
+      });
+  }
+  selectSuggestion(suggestion: any) {
+    this.selectedLocation = suggestion;
+
+    this.createHubForm.patchValue({
+      location_name: this.selectedLocation.display_name,
+      coordinates: {
+        lat: this.selectedLocation.lat,
+        lng: this.selectedLocation.lon,
+      },
+    });
+
+    this.suggestions = [];
+    this.searchControl.setValue(suggestion.display_name, { emitEvent: false });
   }
   toggleLayout() {
     this.isLayout.set(!this.isLayout());
@@ -101,19 +131,19 @@ export class Events implements OnInit {
 
   submitCreateForm() {
     const loadingToast = this.toastService.loading('Processing...');
-    console.log('====================================');
-    console.log(this.createHubForm.value);
-    console.log('====================================');
 
     // if (this.createHubForm.invalid) return;
 
     const formValue = this.createHubForm.value;
     const formData = new FormData();
 
+    const coordinates = formValue.coordinates ?? { lat: null, lng: null };
+
     // Append other fields
     formData.append('title', formValue.title ?? '');
     formData.append('location_name', formValue.location_name ?? '');
-    formData.append('geo_location', formValue.geo_location ?? '');
+    formData.append('lat', formValue.coordinates?.lat ?? '');
+    formData.append('lng', formValue.coordinates?.lng ?? '');
     formData.append('rating', formValue.rating ?? '');
     formData.append('description', formValue.description ?? '');
 

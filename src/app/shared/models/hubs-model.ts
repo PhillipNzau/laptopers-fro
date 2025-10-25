@@ -17,17 +17,21 @@ export interface ReviewHubModel {
   description?: string;
 }
 
+export interface Coordinates {
+  lat: number;
+  lng: number;
+}
+
 export interface HubResponseModel {
   id?: string;
   user_id?: string;
   title?: string;
   description?: string;
-  location?: string;
-  target_amount?: number;
+  coordinates?: Coordinates;
+  location_name?: string;
+  rating: string;
   images?: string[];
-  available?: boolean;
-  housekeepers?: string[];
-  created_at?: string;
+  created_at?: string; // ISO date string
   updated_at?: string;
 }
 
