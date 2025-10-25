@@ -4,7 +4,11 @@ import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
 import { API_CONFIG, ApiConfig } from '../../api.config';
-import { HubResponseModel, UpdateHubModel } from '../models/hubs-model';
+import {
+  HubResponseModel,
+  ReviewHubModel,
+  UpdateHubModel,
+} from '../models/hubs-model';
 
 @Injectable({
   providedIn: 'root',
@@ -42,9 +46,9 @@ export class HubService {
   }
 
   // create  hub
-  createHub(eventData: any) {
+  createHub(hubData: any) {
     const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.eventUrl}`;
-    return this.http.post<HubResponseModel>(url, eventData).pipe(
+    return this.http.post<HubResponseModel>(url, hubData).pipe(
       map((res) => {
         // if (res.status === 200) {
         //   return res;
@@ -55,9 +59,21 @@ export class HubService {
   }
 
   // update  hub
-  updateHub(eventData: UpdateHubModel, eventId: string) {
+  updateHub(hubData: UpdateHubModel, eventId: string) {
     const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.eventUrl}/${eventId}`;
-    return this.http.patch<any>(url, eventData).pipe(
+    return this.http.patch<any>(url, hubData).pipe(
+      map((res) => {
+        // if (res.status === 200) {
+        //   return res;
+        // }
+        return res?.event;
+      })
+    );
+  }
+
+  reviewHub(hubData: ReviewHubModel, eventId: string) {
+    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.eventUrl}/${eventId}`;
+    return this.http.patch<any>(url, hubData).pipe(
       map((res) => {
         // if (res.status === 200) {
         //   return res;

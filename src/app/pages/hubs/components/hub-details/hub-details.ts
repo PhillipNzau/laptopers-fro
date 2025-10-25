@@ -3,7 +3,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { HubService } from '../../../../shared/services/hubService';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HubResponseModel } from '../../../../shared/models/hubs-model';
 import { Modal } from '../../../../shared/components/modal/modal';
 
@@ -28,12 +28,23 @@ export class HubDetails implements OnInit {
   role = signal<string>('');
 
   isEditing = signal(false);
-  eventForm = this.fb.nonNullable.group({
+  updateHubForm = this.fb.nonNullable.group({
     title: [this.hub().title],
-    location: [this.hub().location],
-    available: [this.hub().available],
     description: [this.hub().description],
   });
+
+  reviewHubForm = this.fb.nonNullable.group({
+    rating: ['', [Validators.required]],
+    description: ['', [Validators.required, Validators.maxLength(200)]],
+  });
+
+  // Helper getter to simplify template validation
+  get f() {
+    return this.reviewHubForm.controls;
+  }
+  get descriptionLength(): number {
+    return this.reviewHubForm.get('description')?.value?.length || 0;
+  }
 
   ngOnInit(): void {
     this.getHub();
@@ -70,7 +81,7 @@ export class HubDetails implements OnInit {
 
     // Reset form with latest Event values when editing starts
     if (this.isToggled()) {
-      this.eventForm.patchValue(this.hub());
+      this.reviewHubForm.patchValue(this.hub());
     }
   }
 
@@ -83,8 +94,32 @@ export class HubDetails implements OnInit {
       return;
     }
 
-    if (this.eventForm.valid) {
-      this.hubService.updateHub(this.eventForm.value, id).subscribe({
+    if (this.updateHubForm.valid) {
+      this.hubService.updateHub(this.updateHubForm.value, id).subscribe({
+        next: (res) => {
+          loadingToast.close();
+          this.hub.set(res);
+        },
+        error: () => {
+          loadingToast.close();
+          this.toastService.error('Failed to update Event details');
+        },
+      });
+      this.isToggled.set(false);
+    }
+  }
+
+  submitReviewHub() {
+    const loadingToast = this.toastService.loading('Processing...');
+
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) {
+      this.toastService.error('No event ID found in route');
+      return;
+    }
+
+    if (this.reviewHubForm.valid) {
+      this.hubService.reviewHub(this.reviewHubForm.value, id).subscribe({
         next: (res) => {
           loadingToast.close();
           this.hub.set(res);

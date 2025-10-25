@@ -12,6 +12,11 @@ export interface UpdateHubModel {
   // phone?: string;
 }
 
+export interface ReviewHubModel {
+  rating?: string;
+  description?: string;
+}
+
 export interface HubResponseModel {
   id?: string;
   user_id?: string;
