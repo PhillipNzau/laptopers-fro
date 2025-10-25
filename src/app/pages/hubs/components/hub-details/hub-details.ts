@@ -21,13 +21,14 @@ export class HubDetails implements OnInit {
 
   isToggled = signal<boolean>(false);
 
-  hub = signal<HubResponseModel>({});
+  hub = signal<HubResponseModel>({ rating: '0' });
   selectedImage = signal<string>('');
 
   usr = JSON.parse(localStorage.getItem('uWfUsr') || '');
   role = signal<string>('');
 
   isEditing = signal(false);
+
   updateHubForm = this.fb.nonNullable.group({
     title: [this.hub().title],
     description: [this.hub().description],

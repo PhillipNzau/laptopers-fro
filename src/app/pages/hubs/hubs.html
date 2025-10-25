@@ -139,19 +139,14 @@
             formControlName="title"
             id="title"
           />
+          @if (f.title.touched && f.title.errors?.['required']) {
+          <p class="text-rose-600">Title is required.</p>
+          }
         </div>
 
         <div class="space-y-3">
           <p class="font-bold">Location</p>
-          <input
-            class="w-full border py-3 rounded-xl px-2 text-shadow outline-none"
-            type="text"
-            formControlName="location_name"
-            id="location"
-          />
-        </div>
 
-        <div class="space-y-3">
           <input
             id="location"
             type="text"
@@ -159,20 +154,19 @@
             [formControl]="searchControl"
             class="h-14 w-full rounded-lg border border-themeMainColor px-6 text-base text-stone-900 placeholder-neutral-300 outline-none transition-all duration-200 focus:border-themeMainColor"
           />
-
-          @if (suggestions.length > 0) {
-          <ul class="space-y-1 rounded-lg border border-themeMainColor p-1">
-            @for (suggestion of suggestions; track suggestion) {
-            <li
-              class="hover: cursor-pointer rounded-lg border px-6 py-2 transition-all duration-200 hover:bg-purple-200"
-              (click)="selectSuggestion(suggestion)"
-            >
-              {{ suggestion.display_name }}
-            </li>
-            }
-          </ul>
-          }
         </div>
+        @if (suggestions.length > 0) {
+        <ul class="space-y-1 rounded-lg border border-themeMainColor p-1">
+          @for (suggestion of suggestions; track suggestion) {
+          <li
+            class="hover: cursor-pointer rounded-lg border px-6 py-2 transition-all duration-200 hover:bg-purple-200"
+            (click)="selectSuggestion(suggestion)"
+          >
+            {{ suggestion.display_name }}
+          </li>
+          }
+        </ul>
+        }
 
         <div class="space-y-3">
           <p class="font-bold">Description</p>
@@ -185,6 +179,10 @@
             cols="40"
             formControlName="description"
           ></textarea>
+
+          @if (f.description.touched && f.description.errors?.['required']) {
+          <p class="text-rose-600">Description is required.</p>
+          }
         </div>
 
         <div class="space-y-3">
@@ -236,7 +234,8 @@
 
         <button
           (click)="submitCreateForm()"
-          class="bg-text text-center w-full py-4 text-primary rounded-full"
+          [disabled]="createHubForm.invalid"
+          class="bg-text text-center w-full py-4 text-primary rounded-full disabled:opacity-50"
           type="button"
         >
           Add Hub

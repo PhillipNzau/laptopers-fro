@@ -43,19 +43,22 @@ export class Events implements OnInit {
       lng: [''],
     }),
     rating: ['', [Validators.required]],
-    images: this.fb.nonNullable.array<File>([], [Validators.required]),
+    images: this.fb.nonNullable.array<File>([]),
   });
 
   ngOnInit(): void {
     this.getAllEvents();
     this.searchControl.valueChanges
       .pipe(
-        debounceTime(300),
+        debounceTime(200),
         switchMap((value) => this.hubService.searchLocations(value))
       )
       .subscribe((results) => {
         this.suggestions = results;
       });
+  }
+  get f() {
+    return this.createHubForm.controls;
   }
   selectSuggestion(suggestion: any) {
     this.selectedLocation = suggestion;
