@@ -4,6 +4,7 @@
   >
     <div class="flex absolute top-5 right-4 gap-2">
       <div
+        (click)="markFavoriteHub()"
         class="p-2 flex items-center justify-center rounded-2xl bg-container"
       >
         <svg
@@ -18,9 +19,9 @@
           stroke-linejoin="round"
           class="lucide lucide-heart-icon lucide-heart"
           [ngClass]="
-            hub().location_name
-              ? ['fill-white', 'stroke-text', 'opacity-90']
-              : ['fill-amber-300/50', 'stroke-amber-300/60']
+            isFavorite()
+              ? ['fill-amber-300/50', 'stroke-amber-300/60']
+              : ['fill-white', 'stroke-text', 'opacity-90']
           "
         >
           <path

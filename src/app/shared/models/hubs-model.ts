@@ -25,6 +25,7 @@ export interface Coordinates {
 export interface HubApiResponseModel {
   hub: HubResponseModel;
   reviews: [];
+  is_favorite: boolean;
 }
 
 export interface HubResponseModel {

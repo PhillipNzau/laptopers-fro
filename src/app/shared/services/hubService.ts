@@ -44,8 +44,8 @@ export class HubService {
   }
 
   // get single hub
-  getSingleHub(eventId: string) {
-    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.hubUrl}/${eventId}`;
+  getSingleHub(hubId: string) {
+    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.hubUrl}/${hubId}`;
     return this.http.get<HubApiResponseModel>(url).pipe(
       map((res) => {
         // if (res.status === 200) {
@@ -70,8 +70,8 @@ export class HubService {
   }
 
   // update  hub
-  updateHub(hubData: UpdateHubModel, eventId: string) {
-    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.hubUrl}/${eventId}`;
+  updateHub(hubData: UpdateHubModel, hubId: string) {
+    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.hubUrl}/${hubId}`;
     return this.http.patch<any>(url, hubData).pipe(
       map((res) => {
         // if (res.status === 200) {
@@ -82,9 +82,22 @@ export class HubService {
     );
   }
 
-  reviewHub(hubData: ReviewHubModel, eventId: string) {
-    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.hubUrl}/${eventId}/reviews`;
+  reviewHub(hubData: ReviewHubModel, hubId: string) {
+    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.hubUrl}/${hubId}/reviews`;
     return this.http.post<any>(url, hubData).pipe(
+      map((res) => {
+        // if (res.status === 200) {
+        //   return res;
+        // }
+
+        return res;
+      })
+    );
+  }
+
+  favoriteHub(hubId: string) {
+    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.hubUrl}/${hubId}/favorite`;
+    return this.http.post<any>(url, {}).pipe(
       map((res) => {
         // if (res.status === 200) {
         //   return res;

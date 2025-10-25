@@ -23,6 +23,7 @@ export class HubDetails implements OnInit {
 
   hub = signal<HubResponseModel>({ rating: '0' });
   reviews: any[] = [];
+  isFavorite = signal<boolean>(false);
   selectedImage = signal<string>('');
 
   usr = JSON.parse(localStorage.getItem('uWfUsr') || '');
@@ -58,7 +59,7 @@ export class HubDetails implements OnInit {
 
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
-      this.toastService.error('No Event ID found in route');
+      this.toastService.error('No hub ID found in route');
       return;
     }
 
@@ -66,11 +67,12 @@ export class HubDetails implements OnInit {
       next: (res) => {
         loadingToast.close();
         this.hub.set(res.hub);
+        this.isFavorite.set(res.is_favorite);
         this.reviews = res.reviews;
       },
       error: () => {
         loadingToast.close();
-        this.toastService.error('Failed to fetch event details');
+        this.toastService.error('Failed to fetch Hub details');
       },
     });
   }
@@ -94,7 +96,7 @@ export class HubDetails implements OnInit {
 
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
-      this.toastService.error('No event ID found in route');
+      this.toastService.error('No hub ID found in route');
       return;
     }
 
@@ -106,7 +108,7 @@ export class HubDetails implements OnInit {
         },
         error: () => {
           loadingToast.close();
-          this.toastService.error('Failed to update Event details');
+          this.toastService.error('Failed to update Hub details');
         },
       });
       this.isToggled.set(false);
@@ -118,7 +120,7 @@ export class HubDetails implements OnInit {
 
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
-      this.toastService.error('No event ID found in route');
+      this.toastService.error('No hub ID found in route');
       return;
     }
 
@@ -132,11 +134,31 @@ export class HubDetails implements OnInit {
         },
         error: () => {
           loadingToast.close();
-          this.toastService.error('Failed to update Event details');
+          this.toastService.error('Failed to update Hub details');
           this.isModal.set(false);
         },
       });
     }
+  }
+
+  markFavoriteHub() {
+    const loadingToast = this.toastService.loading('Processing...');
+
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) {
+      this.toastService.error('No hub ID found in route');
+      return;
+    }
+    this.hubService.favoriteHub(id).subscribe({
+      next: (res) => {
+        loadingToast.close();
+        this.isFavorite.set(res.favorite);
+      },
+      error: () => {
+        loadingToast.close();
+        this.toastService.error('Failed to update Hub details');
+      },
+    });
   }
 
   toggleAddReviewModal() {
