@@ -11,7 +11,7 @@ export interface ApiConfig {
     updateUser: string;
 
     // property
-    eventUrl: string;
+    hubUrl: string;
   };
 }
 
@@ -31,6 +31,6 @@ export const apiConfigValue: ApiConfig = {
     updateUser: '/users',
 
     // property
-    eventUrl: '/hubs',
+    hubUrl: '/hubs',
   },
 };

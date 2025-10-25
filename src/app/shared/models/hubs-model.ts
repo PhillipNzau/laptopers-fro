@@ -22,6 +22,11 @@ export interface Coordinates {
   lng: number;
 }
 
+export interface HubApiResponseModel {
+  hub: HubResponseModel;
+  reviews: [];
+}
+
 export interface HubResponseModel {
   id?: string;
   user_id?: string;

@@ -22,12 +22,14 @@ export class HubDetails implements OnInit {
   isToggled = signal<boolean>(false);
 
   hub = signal<HubResponseModel>({ rating: '0' });
+  reviews: any[] = [];
   selectedImage = signal<string>('');
 
   usr = JSON.parse(localStorage.getItem('uWfUsr') || '');
   role = signal<string>('');
 
   isEditing = signal(false);
+  isModal = signal<boolean>(false);
 
   updateHubForm = this.fb.nonNullable.group({
     title: [this.hub().title],
@@ -36,7 +38,7 @@ export class HubDetails implements OnInit {
 
   reviewHubForm = this.fb.nonNullable.group({
     rating: ['', [Validators.required]],
-    description: ['', [Validators.required, Validators.maxLength(200)]],
+    comment: ['', [Validators.required, Validators.maxLength(200)]],
   });
 
   // Helper getter to simplify template validation
@@ -44,7 +46,7 @@ export class HubDetails implements OnInit {
     return this.reviewHubForm.controls;
   }
   get descriptionLength(): number {
-    return this.reviewHubForm.get('description')?.value?.length || 0;
+    return this.reviewHubForm.get('comment')?.value?.length || 0;
   }
 
   ngOnInit(): void {
@@ -63,7 +65,8 @@ export class HubDetails implements OnInit {
     this.hubService.getSingleHub(id).subscribe({
       next: (res) => {
         loadingToast.close();
-        this.hub.set(res);
+        this.hub.set(res.hub);
+        this.reviews = res.reviews;
       },
       error: () => {
         loadingToast.close();
@@ -99,7 +102,7 @@ export class HubDetails implements OnInit {
       this.hubService.updateHub(this.updateHubForm.value, id).subscribe({
         next: (res) => {
           loadingToast.close();
-          this.hub.set(res);
+          this.hub.set(res.hub);
         },
         error: () => {
           loadingToast.close();
@@ -123,18 +126,18 @@ export class HubDetails implements OnInit {
       this.hubService.reviewHub(this.reviewHubForm.value, id).subscribe({
         next: (res) => {
           loadingToast.close();
-          this.hub.set(res);
+          this.reviews = [...this.reviews, res];
+          this.isModal.set(false);
+          this.reviewHubForm.reset;
         },
         error: () => {
           loadingToast.close();
           this.toastService.error('Failed to update Event details');
+          this.isModal.set(false);
         },
       });
-      this.isToggled.set(false);
     }
   }
-
-  isModal = signal<boolean>(false);
 
   toggleAddReviewModal() {
     this.isModal.set(!this.isModal());

@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { API_CONFIG, ApiConfig } from '../../api.config';
 import {
+  HubApiResponseModel,
   HubResponseModel,
   ReviewHubModel,
   UpdateHubModel,
@@ -31,7 +32,7 @@ export class HubService {
 
   // get all hubs
   getAllHub() {
-    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.eventUrl}`;
+    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.hubUrl}`;
     return this.http.get<HubResponseModel[]>(url).pipe(
       map((res) => {
         // if (res.status === 200) {
@@ -44,8 +45,8 @@ export class HubService {
 
   // get single hub
   getSingleHub(eventId: string) {
-    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.eventUrl}/${eventId}`;
-    return this.http.get<HubResponseModel>(url).pipe(
+    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.hubUrl}/${eventId}`;
+    return this.http.get<HubApiResponseModel>(url).pipe(
       map((res) => {
         // if (res.status === 200) {
         //   return res;
@@ -57,7 +58,7 @@ export class HubService {
 
   // create  hub
   createHub(hubData: any) {
-    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.eventUrl}`;
+    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.hubUrl}`;
     return this.http.post<any>(url, hubData).pipe(
       map((res) => {
         // if (res.status === 200) {
@@ -70,7 +71,7 @@ export class HubService {
 
   // update  hub
   updateHub(hubData: UpdateHubModel, eventId: string) {
-    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.eventUrl}/${eventId}`;
+    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.hubUrl}/${eventId}`;
     return this.http.patch<any>(url, hubData).pipe(
       map((res) => {
         // if (res.status === 200) {
@@ -82,13 +83,14 @@ export class HubService {
   }
 
   reviewHub(hubData: ReviewHubModel, eventId: string) {
-    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.eventUrl}/${eventId}`;
-    return this.http.patch<any>(url, hubData).pipe(
+    const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.hubUrl}/${eventId}/reviews`;
+    return this.http.post<any>(url, hubData).pipe(
       map((res) => {
         // if (res.status === 200) {
         //   return res;
         // }
-        return res?.event;
+
+        return res;
       })
     );
   }

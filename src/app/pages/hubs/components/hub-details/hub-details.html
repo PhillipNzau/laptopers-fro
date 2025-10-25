@@ -350,7 +350,7 @@
 
       <!-- Accordion Content -->
       <div class="collapse-content">
-        @for (item of [1,1,1,1,1,1]; track $index) {
+        @for (review of reviews; track $index) {
         <!-- Review Card -->
         <div
           class="border bg-amber-300/10 border-amber-300/20 py-2 px-2 my-4 rounded-md"
@@ -366,9 +366,12 @@
             </div>
 
             <div>
-              <p class="text-text font-bold text-lg">John Doe</p>
+              <p class="text-text font-bold text-lg">{{ review.user_name }}</p>
               <p class="flex items-center text-gray-500 gap-2 text-sm">
-                <span>Added on July 11, 2025</span>
+                <span
+                  >Added on
+                  {{ review.created_at | date : "MMMM dd, yyyy" }}</span
+                >
               </p>
             </div>
           </div>
@@ -380,7 +383,7 @@
             <div class="border-x border-b border-gray-300/70 p-3 text-text">
               <!-- Rating -->
               <p class="text-sm text-gray-500 flex gap-1 items-center py-1">
-                @for (item of [1,1,1,1,1]; track $index) {
+                @for (item of [1,2,3,4,5]; track $index) {
                 <span
                   class="relative inline-block"
                   [ngClass]="{
@@ -398,8 +401,8 @@
                     stroke-linejoin="round"
                     class="stroke-amber-500"
                     [ngClass]="{
-                      'fill-rose-400': $index < 4,
-                      'fill-none': $index === 4
+                      'fill-rose-400': $index < (+review.rating || 0),
+                      'fill-none': $index >= (+review.rating || 0)
                     }"
                   >
                     <path
@@ -407,13 +410,12 @@
                     />
                   </svg>
                 </span>
-                } 4/5
+                } {{ review.rating }}
               </p>
 
               <!-- Review Text -->
               <p class="py-3">
-                Great spot for working with laptop. Good wifi and comfortable
-                seating.
+                {{ review.comment }}
               </p>
             </div>
           </div>
@@ -464,34 +466,30 @@
           </select>
 
           <!-- Rating Validation -->
-          <p
-            *ngIf="f.rating.touched && f.rating.errors?.['required']"
-            class="text-rose-600 text-sm"
-          >
-            Rating is required.
-          </p>
+          @if (f.rating.touched && f.rating.errors?.['required']) {
+          <p class="text-rose-600 text-sm">Rating is required.</p>
+          }
         </div>
 
         <!-- Description Field -->
         <div class="space-y-3">
-          <p class="font-bold">Description</p>
+          <p class="font-bold">Comment</p>
 
           <textarea
-            id="description"
+            id="comment"
             type="text"
             class="w-full border py-3 rounded-xl px-2 text-shadow outline-none"
             rows="3"
             cols="40"
-            formControlName="description"
+            formControlName="comment"
             placeholder="Write your review here (max 200 characters)"
           ></textarea>
 
-          <!-- Description Validation -->
+          <!-- Comment Validation -->
           <div class="flex justify-between text-sm">
-            @if (f.description.touched && f.description.errors?.['required']) {
-            <p class="text-rose-600">Description is required.</p>
-            } @if (f.description.touched && f.description.errors?.['maxlength'])
-            {
+            @if (f.comment.touched && f.comment.errors?.['required']) {
+            <p class="text-rose-600">comment is required.</p>
+            } @if (f.comment.touched && f.comment.errors?.['maxlength']) {
             <p class="text-rose-600">Maximum of 200 characters allowed.</p>
             }
             <!-- Character count -->
