@@ -2,10 +2,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap");
 @use "@ngneat/hot-toast/src/styles/styles.scss";
 @import "tailwindcss";
-@theme {
-  /* Define custom colors */
+@plugin "daisyui" {
+  themes: mytheme --default;
+}
+
+/* Now define your custom theme */
+@theme mytheme {
   --color-primary: #daf1de;
   --color-secondary: #8eb69b;
+  --color-accent: #8eb69b;
+  --color-neutral: #163832;
+  --color-base-100: #fffbfb;
+  --color-info: #0b2b26;
+  --color-success: #8eb69b;
+  --color-warning: #facc15;
+  --color-error: #ef4444;
+
+  /* Optional custom vars */
   --color-dark: #163832;
   --color-container: #fffbfb;
   --color-shadow: #0b2b26;
