@@ -32,10 +32,9 @@ export class Events implements OnInit {
   createHubForm = this.fb.nonNullable.group({
     title: ['', [Validators.required]],
     description: ['', [Validators.required]],
-    location: ['', [Validators.required]],
-    target_amount: ['', [Validators.required]],
-    deadline: ['', [Validators.required]],
-    status: ['', [Validators.required]],
+    location_name: ['', [Validators.required]],
+    geo_location: ['', [Validators.required]],
+    rating: ['', [Validators.required]],
     images: this.fb.nonNullable.array<File>([], [Validators.required]),
   });
 
@@ -113,10 +112,9 @@ export class Events implements OnInit {
 
     // Append other fields
     formData.append('title', formValue.title ?? '');
-    formData.append('location', formValue.location ?? '');
-    formData.append('target_amount', formValue.target_amount ?? '');
-    formData.append('deadline', formValue.deadline ?? '');
-    formData.append('status', formValue.status ?? '');
+    formData.append('location_name', formValue.location_name ?? '');
+    formData.append('geo_location', formValue.geo_location ?? '');
+    formData.append('rating', formValue.rating ?? '');
     formData.append('description', formValue.description ?? '');
 
     // Append image files, safely

@@ -146,28 +146,8 @@
           <input
             class="w-full border py-3 rounded-xl px-2 text-shadow outline-none"
             type="text"
-            formControlName="location"
+            formControlName="location_name"
             id="location"
-          />
-        </div>
-
-        <div class="space-y-3">
-          <p class="font-bold">Target Amount</p>
-          <input
-            class="w-full border py-3 rounded-xl px-2 text-shadow outline-none"
-            type="number"
-            formControlName="target_amount"
-            id="price"
-          />
-        </div>
-
-        <div class="space-y-3">
-          <p class="font-bold">Deadline</p>
-          <input
-            class="w-full border py-3 rounded-xl px-2 text-shadow outline-none"
-            type="date"
-            formControlName="deadline"
-            id="deadline"
           />
         </div>
 
@@ -185,13 +165,16 @@
         </div>
 
         <div class="space-y-3">
-          <p class="font-bold">Status</p>
+          <p class="font-bold">Rating</p>
           <select
-            formControlName="status"
-            class="border rounded p-1 text-shadow"
+            formControlName="rating"
+            class="border rounded p-1 text-shadow w-full"
           >
-            <option [ngValue]="true">Active</option>
-            <option [ngValue]="false">Inactive</option>
+            <option [ngValue]="1">1</option>
+            <option [ngValue]="2">2</option>
+            <option [ngValue]="3">3</option>
+            <option [ngValue]="4">4</option>
+            <option [ngValue]="5">5</option>
           </select>
         </div>
 
@@ -207,28 +190,6 @@
             class="mb-4"
           />
 
-          <!-- Image Previews -->
-
-          <!-- <div class="flex flex-wrap gap-4">
-            <div
-              *ngFor="let img of images.controls; let i = index"
-              class="relative w-32 h-32"
-            >
-              <img
-                [src]="img.value"
-                alt="Uploaded"
-                class="object-cover w-full h-full rounded border"
-              />
-              <button
-                type="button"
-                (click)="removeImage(i)"
-                class="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 text-xs"
-                aria-label="Remove image"
-              >
-                ✕
-              </button>
-            </div>
-          </div> -->
           <div class="flex flex-wrap gap-4">
             @for (img of imagePreviews; track $index) {
             <div class="relative w-40 h-32">
@@ -240,7 +201,7 @@
               <button
                 type="button"
                 (click)="removeImage($index)"
-                class="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 m-1 text-xs size-[20px] flex items-center justify-center"
+                class="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 m-1 text-xs size-5 flex items-center justify-center"
                 aria-label="Remove image"
               >
                 ✕
@@ -255,7 +216,7 @@
           class="bg-text text-center w-full py-4 text-primary rounded-full"
           type="button"
         >
-          Save Changes
+          Add Hub
         </button>
       </form>
     </div>

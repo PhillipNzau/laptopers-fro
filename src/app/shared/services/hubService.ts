@@ -48,7 +48,7 @@ export class HubService {
   // create  hub
   createHub(hubData: any) {
     const url = `${this.apiConfig.baseUrl}${this.apiConfig.endpoints.eventUrl}`;
-    return this.http.post<HubResponseModel>(url, hubData).pipe(
+    return this.http.post<any>(url, hubData).pipe(
       map((res) => {
         // if (res.status === 200) {
         //   return res;

@@ -31,6 +31,6 @@ export const apiConfigValue: ApiConfig = {
     updateUser: '/users',
 
     // property
-    eventUrl: '/events',
+    eventUrl: '/hubs',
   },
 };
