@@ -20,8 +20,8 @@ export const API_CONFIG = new InjectionToken<ApiConfig>('api.config');
 
 // Define the actual configuration value
 export const apiConfigValue: ApiConfig = {
-  baseUrl: 'http://localhost:8080',
-  // baseUrl: 'https://unit-wise.onrender.com',
+  // baseUrl: 'http://localhost:8080',
+  baseUrl: 'https://laptopers-backend.onrender.com',
 
   endpoints: {
     loginUser: '/auth/login',
