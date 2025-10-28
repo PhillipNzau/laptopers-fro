@@ -20,7 +20,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/sitemap.xml"
             ],
             "styles": [
               "node_modules/@ngneat/hot-toast/src/styles/styles.css",
@@ -75,7 +76,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/sitemap.xml"
             ],
             "styles": ["src/styles.css"]
           }
