@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { HubCard } from '../../shared/components/hub-card/hub-card';
 import { HubService } from '../../shared/services/hubService';
@@ -16,7 +16,13 @@ import { debounceTime, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-hubs',
-  imports: [ReactiveFormsModule, CommonModule, HubCard, Modal],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    HubCard,
+    Modal,
+    NgOptimizedImage,
+  ],
   templateUrl: './hubs.html',
   styleUrl: './hubs.css',
 })

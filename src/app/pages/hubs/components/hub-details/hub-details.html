@@ -33,8 +33,9 @@
 
     <img
       [src]="selectedImage() === '' ? hub().images?.[0] : selectedImage()"
-      alt=""
+      [attr.alt]="hub().title || 'Coworking space image'"
       class="object-cover w-full h-full"
+      loading="lazy"
     />
 
     <div class="flex absolute bottom-5 left-4 gap-2 w-3/4">
@@ -92,7 +93,14 @@
     class="bg-gray-200 h-24 min-w-36 rounded-2xl overflow-clip"
     (click)="selectImage(img)"
   >
-    <img [src]="img" alt="" class="object-cover w-full h-full" />
+    <img
+      [ngSrc]="img"
+      width="600"
+      height="400"
+      [attr.alt]="hub().title || 'Coworking space image'"
+      class="object-cover w-full h-full"
+      loading="lazy"
+    />
   </div>
   }
 </section>

@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { LoginForm } from './component/login-form/login-form';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-auth',
-  imports: [LoginForm],
+  imports: [LoginForm, NgOptimizedImage],
   templateUrl: './auth.html',
   styleUrl: './auth.css',
 })

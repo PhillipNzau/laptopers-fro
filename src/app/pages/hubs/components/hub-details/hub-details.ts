@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
@@ -9,7 +9,13 @@ import { Modal } from '../../../../shared/components/modal/modal';
 
 @Component({
   selector: 'app-hub-details',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, Modal],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    Modal,
+    NgOptimizedImage,
+  ],
   templateUrl: './hub-details.html',
   styleUrl: './hub-details.css',
 })
